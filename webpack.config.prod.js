@@ -5,12 +5,11 @@ const CleanWebpackPlugin = require("clean-webpack-plugin");
 module.exports = {
   mode: process.env.NODE_ENV,
   entry: "./src/index.js",
-  plugins: [
-    new CleanWebpackPlugin([`build/react-image-designer.js`])
-  ],
+  plugins: [new CleanWebpackPlugin([`build/react-image-designer.js`])],
   output: {
     path: path.resolve(__dirname, "build"),
-    filename: `react-image-designer.js`
+    filename: `react-image-designer.js`,
+    libraryTarget: 'commonjs2'
   },
   module: {
     rules: [
@@ -25,5 +24,8 @@ module.exports = {
         }
       }
     ]
+  },
+  externals: {
+    "react": "commonjs react"
   }
 };

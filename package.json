@@ -49,10 +49,10 @@
   },
   "scripts": {
     "start": "node start.js",
-    "test": "node test.js",
-    "test-once": "node test.js --coverage",
+    "test-watch": "node test.js",
+    "test": "node test.js --coverage",
     "build": "node build.js prod",
-    "prepublish": "npm run test-once && npm run build && npm run umd",
+    "prepublish": "npm run test && npm run build && npm run umd",
     "umd": "node build.js umd"
   },
   "devDependencies": {

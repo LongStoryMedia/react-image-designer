@@ -14,6 +14,7 @@ export default class ImageDesigner extends PureComponent {
       src: props.placeholder || "",
       ref: createRef(),
       onScreen: false,
+      lazy: typeof props.lazy === 'undefined' || props.lazy,
       styles: props.noImage
         ? {}
         : {
@@ -27,31 +28,30 @@ export default class ImageDesigner extends PureComponent {
 
   componentDidUpdate(prevProps) {
     const { src, placeholder } = this.props;
-    const { ref } = this.state;
+    const { ref, lazy } = this.state;
     if (src !== prevProps.src) {
       this.setState({ image: placeholder }, () => this.tryLoad());
     }
   }
   componentDidMount() {
-    const { src, noImage, timeout } = this.props;
-    const { ref } = this.state;
-    this.tryLoad();
-    window.addEventListener("scroll", this.shouldLoad);
+    const { ref, lazy } = this.state;
+    this.tryLoad()
+    if(lazy) window.addEventListener("scroll", this.shouldLoad);
   }
   componentWillUnmount() {
     if (this.image) {
       this.image.onload = null;
       this.image.onerror = null;
     }
-    window.removeEventListener("scroll", this.shouldLoad);
+    if(this.state.lazy) window.removeEventListener("scroll", this.shouldLoad);
   }
   shouldLoad = () => {
-    const { src, placeholder } = this.props;
-    const { ref, onScreen } = this.state;
-    if (ref.current && inView(ref.current) && !onScreen) {
-      this.loadImage(src);
+    const { src, placeholder, timeout } = this.props;
+    const { ref, onScreen, lazy } = this.state;
+    if ((ref.current && inView(ref.current) && !onScreen) || !lazy) {
+      throttle(this.loadImage(src), timeout);
     }
-    if (onScreen) window.removeEventListener("scroll", this.shouldLoad);
+    if (onScreen || lazy) window.removeEventListener("scroll", this.shouldLoad);
   };
   onLoad = () => {
     const { src, timeout } = this.props;

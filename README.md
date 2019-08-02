@@ -53,6 +53,7 @@ If you use the UMD build you can find the library on `window.__RID`.
 | sizes | `string` | `false`  | sizes for srcset | "" |
 | noImage | `boolean` | `false`  | if true, no image is used (for text only) | false |
 | timeout | `number` | `false`  | delay in milliseconds before src is loaded | 0 |
+| lazy | `boolean` | `false`  | if img should be lazy-loaded | true |
 
 #### Simple
 

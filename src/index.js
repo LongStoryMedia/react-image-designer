@@ -3,37 +3,55 @@ react-image-designer
 (c) Long Story Media
 @license MIT
 */
-import React, { PureComponent } from "react";
+import React, { PureComponent, createRef } from "react";
+import inView, { throttle } from "./inView";
 
 export default class ImageDesigner extends PureComponent {
-  image = new Image();
-  state = {
-    src: this.props.placeholder || "",
-    styles: this.props.noImage
-      ? {}
-      : {
-          filter: "blur(5px)",
-          transition: "filter 1.5s ease-in-out"
-        }
-  };
+  constructor(props) {
+    super(props);
+    this.image = new Image();
+    this.state = {
+      src: props.placeholder || "",
+      ref: createRef(),
+      onScreen: false,
+      styles: props.noImage
+        ? {}
+        : {
+            filter: "blur(5px)",
+            transition: "filter 1.5s ease-in-out"
+          }
+    };
+    this.tryLoad = this.shouldLoad;
+    this.shouldLoad = throttle(this.shouldLoad, 500);
+  }
+
   componentDidUpdate(prevProps) {
     const { src, placeholder } = this.props;
+    const { ref } = this.state;
     if (src !== prevProps.src) {
-      this.setState({ image: placeholder }, () => {
-        this.loadImage(src);
-      });
+      this.setState({ image: placeholder }, () => this.tryLoad());
     }
   }
   componentDidMount() {
     const { src, noImage, timeout } = this.props;
-    !noImage && this.loadImage(src);
+    const { ref } = this.state;
+    this.tryLoad();
+    window.addEventListener("scroll", this.shouldLoad);
   }
   componentWillUnmount() {
     if (this.image) {
       this.image.onload = null;
       this.image.onerror = null;
     }
+    window.removeEventListener("scroll", this.shouldLoad);
   }
+  shouldLoad = () => {
+    const { src, placeholder } = this.props;
+    const { ref } = this.state;
+    if (ref.current && inView(ref.current)) {
+      this.loadImage(src);
+    }
+  };
   onLoad = () => {
     const { src, timeout } = this.props;
     if (timeout)
@@ -72,7 +90,7 @@ export default class ImageDesigner extends PureComponent {
       id,
       noImage
     } = this.props;
-    const { src, styles } = this.state;
+    const { src, styles, ref } = this.state;
     const t = tag ? tag : "img";
     const ImgTag = `${t}`;
     const isImg = tag === "img";
@@ -92,6 +110,7 @@ export default class ImageDesigner extends PureComponent {
           : (style && style.height) || "200px",
       ...style
     };
+    ref.current && console.log(inView(ref.current));
     return (
       <ImgTag
         alt={alt ? alt : src}
@@ -101,6 +120,7 @@ export default class ImageDesigner extends PureComponent {
         style={dynamicStyles}
         className={className}
         id={id}
+        ref={ref}
       >
         {children}
       </ImgTag>

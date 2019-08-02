@@ -110,7 +110,6 @@ export default class ImageDesigner extends PureComponent {
           : (style && style.height) || "200px",
       ...style
     };
-    ref.current && console.log(inView(ref.current));
     return (
       <ImgTag
         alt={alt ? alt : src}

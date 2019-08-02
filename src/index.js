@@ -49,6 +49,7 @@ export default class ImageDesigner extends PureComponent {
     const { src, placeholder } = this.props;
     const { ref, onScreen } = this.state;
     if (ref.current && inView(ref.current) && !onScreen) {
+      console.log("load on scroll");
       this.loadImage(src);
     }
     if (onScreen) window.removeEventListener("scroll", this.shouldLoad);
@@ -62,6 +63,7 @@ export default class ImageDesigner extends PureComponent {
   onError = e => this.props.onError && this.props.onError(e);
   loadImage = src => {
     const { srcset, sizes } = this.props;
+    this.setState({ onScreen: true });
     if (this.image) {
       this.image.onload = null;
       this.image.onerror = null;

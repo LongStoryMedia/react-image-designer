@@ -1,5 +1,13 @@
 # React Image Designer
 
+## Features
+
+- ##### Can be background-image, or src. Just specify they base element tag in props.
+- ##### Loads only if visible in window.
+- ##### Support for srcset and sizes.
+- ##### Placeholder present until src image is loaded (blank by default)
+- ##### Can set custom timeout to delay src image load
+
 ### background
 
 this project is influenced heavily by [react-progressive-image](https://www.npmjs.com/package/react-progressive-image). However, it appears they are no longer making updates to it (at least not new features), and I needed something similar that had options to generate background-images, use dynamic base element types, and handle `children`. I also prefer a simplified syntax.

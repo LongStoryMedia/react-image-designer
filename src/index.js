@@ -1,7 +1,7 @@
 /*
 react-image-designer
 (c) Long Story Media
-@license MIT
+@license WTFPL
 */
 import React, { PureComponent, createRef } from "react";
 import inView, { throttle } from "./inView";

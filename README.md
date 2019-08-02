@@ -1,5 +1,7 @@
 # React Image Designer
 
+[![Build Status](https://travis-ci.org/LongStoryMedia/react-image-designer.svg?branch=master)](https://travis-ci.org/LongStoryMedia/react-image-designer)
+
 ## Features
 
 - ##### Can be background-image, or src. Just specify they base element tag in props.

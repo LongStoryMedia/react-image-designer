@@ -120,7 +120,7 @@ export default class ImageDesigner extends PureComponent {
       noImage
     } = this.props;
 
-    const { src, styles, ref } = this.state;
+    const { src, styles, ref, loaded } = this.state;
 
     const t = tag ? tag : "img";
 

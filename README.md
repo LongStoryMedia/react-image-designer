@@ -29,7 +29,7 @@ $ npm install react-image-designer
 The UMD build is also available on [unpkg](https://unpkg.com):
 
 ```html
-<script src="https://unpkg.com/react-image-designer@1.0.0/umd/react-image-designer.min.js"></script>
+<script src="https://unpkg.com/react-image-designer/umd/react-image-designer.min.js"></script>
 ```
 
 If you use the UMD build you can find the library on `window.__RID`.

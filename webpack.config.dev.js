@@ -16,10 +16,16 @@ module.exports = {
     })
   ],
   output: {
-    filename: `[name].bundle.js`,
+    filename: `[name].bundle.js`
   },
   module: {
     rules: [
+      {
+        test: /\.(m?jsx?)$/,
+        exclude: /(node_modules|bower_components|build|umd)/,
+        enforce: "pre",
+        use: require.resolve("eslint-loader")
+      },
       {
         test: /\.js$/,
         exclude: /(node_modules|bower_components|build)/,

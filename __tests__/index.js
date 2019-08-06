@@ -75,7 +75,7 @@ test("updates src, or background-image (when type is not img), to full size imag
   expect(updatedInstanceB.state.src).toEqual(instanceB.props.src);
 });
 test("does not immediately set image if timeout exists", () => {
-  updatedInstanceD.onLoad();
+  updatedInstanceD.shouldLoad();
   expect(updatedInstanceD.state.src).toEqual(instance.props.placeholder);
 });
 test("sets image after timeout if timeout exists", () => {

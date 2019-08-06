@@ -7,62 +7,80 @@ import React, { PureComponent, createRef } from "react";
 import inView, { throttle } from "./inView";
 
 export default class ImageDesigner extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.image = new Image();
-    this.state = {
-      src: props.placeholder || "",
-      ref: createRef(),
-      onScreen: false,
-      lazy: typeof props.lazy === 'undefined' || props.lazy,
-      styles: props.noImage
-        ? {}
-        : {
-            filter: "blur(5px)",
-            transition: "filter 1.5s ease-in-out"
-          }
-    };
-    this.tryLoad = this.shouldLoad;
-    this.shouldLoad = throttle(this.shouldLoad, 500);
+  image = new Image();
+
+  state = {
+    src: this.props.placeholder || "",
+    ref: createRef(),
+    mounted: false,
+    onScreen: false,
+    lazy: typeof this.props.lazy === "undefined" || this.props.lazy,
+    styles: this.props.noImage
+      ? {}
+      : {
+          filter: "blur(5px)",
+          transition: "filter 2.5s ease-in-out"
+        }
+  };
+
+  throttleLoad = throttle(() => this.shouldLoad(), 500);
+
+  componentDidUpdate(prevProps, prevState) {
+    const { placeholder } = this.props;
+    const { ref, lazy, src, clientHeight } = this.state;
+    if (
+      (src !== prevProps.src &&
+        ref.current &&
+        ((lazy && inView(ref.current)) || !lazy)) ||
+      (clientHeight !== prevState.clientHeight &&
+        ref.current &&
+        ((lazy && inView(ref.current)) || !lazy))
+    )
+      this.shouldLoad();
   }
 
-  componentDidUpdate(prevProps) {
-    const { src, placeholder } = this.props;
-    const { ref, lazy } = this.state;
-    if (src !== prevProps.src) {
-      this.setState({ image: placeholder }, () => this.tryLoad());
-    }
-  }
   componentDidMount() {
     const { ref, lazy } = this.state;
-    this.tryLoad()
-    if(lazy) window.addEventListener("scroll", this.shouldLoad);
+    this.shouldLoad();
+    this.setState({ mounted: true });
+    if (lazy) window.addEventListener("scroll", this.throttleLoad);
   }
+
   componentWillUnmount() {
     if (this.image) {
       this.image.onload = null;
       this.image.onerror = null;
     }
-    if(this.state.lazy) window.removeEventListener("scroll", this.shouldLoad);
+    if (this.state.lazy)
+      window.removeEventListener("scroll", this.throttleLoad);
   }
+
   shouldLoad = () => {
     const { src, placeholder, timeout } = this.props;
-    const { ref, onScreen, lazy } = this.state;
-    if ((ref.current && inView(ref.current) && !onScreen) || !lazy) {
-      throttle(this.loadImage(src), timeout);
-    }
-    if (onScreen || lazy) window.removeEventListener("scroll", this.shouldLoad);
+    const { ref, lazy } = this.state;
+    if (!ref.current || (ref.current && !inView(ref.current) && lazy))
+      return this.setState({ loading: true });
+    if (ref.current.clientHeight <= 0)
+      return this.setState({ clientHeight: ref.current.clientHeight });
+    if (
+      (ref.current && inView(ref.current) && ref.current.clientHeight > 0) ||
+      !lazy
+    )
+      setTimeout(() => this.loadImage(src), timeout);
   };
+
   onLoad = () => {
-    const { src, timeout } = this.props;
-    if (timeout)
-      setTimeout(() => this.setState({ src: src, styles: {} }), timeout);
-    else this.setState({ src: src, styles: {} });
+    this.setState({
+      src: this.props.src,
+      styles: { transition: "filter 1.5s ease-in-out", filter: "" }
+    });
+    window.removeEventListener("scroll", this.throttleLoad);
   };
+
   onError = e => this.props.onError && this.props.onError(e);
+
   loadImage = src => {
     const { srcset, sizes } = this.props;
-    this.setState({ onScreen: true });
     if (this.image) {
       this.image.onload = null;
       this.image.onerror = null;
@@ -77,6 +95,7 @@ export default class ImageDesigner extends PureComponent {
       img.sizes = sizes;
     }
   };
+
   render() {
     const {
       style,
@@ -92,11 +111,17 @@ export default class ImageDesigner extends PureComponent {
       id,
       noImage
     } = this.props;
+
     const { src, styles, ref } = this.state;
+
     const t = tag ? tag : "img";
+
     const ImgTag = `${t}`;
+
     const isImg = tag === "img";
+
     const dynamicStyles = {
+      ...style,
       ...styles,
       backgroundColor: (style && style.backgroundColor) || "transparent",
       backgroundImage: noImage || isImg ? "" : `url("${src}")`,
@@ -109,9 +134,9 @@ export default class ImageDesigner extends PureComponent {
       height:
         tag === "img"
           ? (style && style.height) || ""
-          : (style && style.height) || "200px",
-      ...style
+          : (style && style.height) || "200px"
     };
+
     return (
       <ImgTag
         alt={alt ? alt : src}

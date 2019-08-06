@@ -19,7 +19,7 @@ export default class ImageDesigner extends PureComponent {
       ? {}
       : {
           filter: "blur(5px)",
-          transition: "filter 2.5s ease-in-out"
+          transition: "filter 0.5s ease-in-out"
         }
   };
 
@@ -77,7 +77,7 @@ export default class ImageDesigner extends PureComponent {
   onLoad = () => {
     this.setState({
       src: this.props.src,
-      styles: { transition: "filter 1.5s ease-in-out", filter: "" }
+      styles: { transition: "filter 0.5s ease-in-out", filter: "" }
     });
     window.removeEventListener("scroll", this.throttleLoad);
   };

@@ -2,6 +2,10 @@
 
 [![Build Status](https://travis-ci.org/LongStoryMedia/react-image-designer.svg?branch=master)](https://travis-ci.org/LongStoryMedia/react-image-designer)
 
+[![Known Vulnerabilities](https://snyk.io//test/github/LongStoryMedia/react-image-designer/badge.svg?targetFile=package.json)](https://snyk.io//test/github/LongStoryMedia/react-image-designer?targetFile=package.json)
+
+
+
 ## Features
 
 - ##### Can be background-image, or src. Just specify they base element tag in props.

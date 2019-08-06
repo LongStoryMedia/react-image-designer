@@ -85,7 +85,7 @@ export default class ImageDesigner extends PureComponent {
   onError = e => this.props.onError && this.props.onError(e);
 
   loadImage = src => {
-    if(this.image.src === this.state.src) clearInterval(this.checkLocation);
+    if(this.image.src === this.state.src) return clearInterval(this.checkLocation);
     const { srcset, sizes } = this.props;
     if (this.image) {
       this.image.onload = null;
@@ -100,6 +100,7 @@ export default class ImageDesigner extends PureComponent {
       img.srcset = srcset;
       img.sizes = sizes;
     }
+    clearInterval(this.checkLocation);
   };
 
   render() {

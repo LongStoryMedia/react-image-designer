@@ -85,6 +85,7 @@ export default class ImageDesigner extends PureComponent {
   onError = e => this.props.onError && this.props.onError(e);
 
   loadImage = src => {
+    if(this.image.src === this.state.src) clearInterval(this.checkLocation);
     const { srcset, sizes } = this.props;
     if (this.image) {
       this.image.onload = null;

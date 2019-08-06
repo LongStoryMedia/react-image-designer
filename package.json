@@ -56,8 +56,8 @@
   },
   "scripts": {
     "start": "node start.js",
-    "test-watch": "node test.js",
-    "test": "node test.js --ci",
+    "test-watch": "node test.js --watchAll",
+    "test": "node test.js",
     "build": "node build.js prod",
     "prepublish": "npm run test && npm run build && npm run umd",
     "umd": "node build.js umd"

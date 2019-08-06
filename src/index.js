@@ -44,9 +44,14 @@ export default class ImageDesigner extends PureComponent {
     this.setState({ mounted: true });
     if (lazy) window.addEventListener("scroll", this.throttleLoad);
     window.addEventListener("load", this.shouldLoad);
+    this.checkLocation = setInterval(
+      this.throttleLoad,
+      this.props.scanScreen || 1000
+    );
   }
 
   componentWillUnmount() {
+    this.clearInterval(this.throttleLoad);
     if (this.image) {
       this.image.onload = null;
       this.image.onerror = null;

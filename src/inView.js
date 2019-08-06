@@ -5,7 +5,9 @@ const pos = element => {
     const rect = element.getBoundingClientRect();
     return {
       top: rect.top + window.pageYOffset,
-      left: rect.left + window.pageXOffset
+      left: rect.left + window.pageXOffset,
+      bottom: rect.bottom + window.pageYOffset,
+      right: rect.right + window.pageXOffset
     };
   }
   return false;
@@ -32,9 +34,9 @@ export default function inViewport(element) {
   const elementPosition = pos(element) || { top: 0, left: 0 };
 
   return (
-    top <= elementPosition.top &&
-    bottom >= elementPosition.top &&
-    left <= elementPosition.left &&
-    right >= elementPosition.left
+    ((elementPosition.bottom >= top && elementPosition.bottom <= bottom) ||
+      (elementPosition.top <= bottom && elementPosition.top >= top) ||
+      (elementPosition.top <= top && elementPosition.bottom >= bottom)) &&
+    (left <= elementPosition.left || right >= elementPosition.left)
   );
 }

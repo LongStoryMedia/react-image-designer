@@ -41,9 +41,9 @@ export default class ImageDesigner extends PureComponent {
 
   componentDidMount() {
     const { ref, lazy } = this.state;
-    this.shouldLoad();
     this.setState({ mounted: true });
     if (lazy) window.addEventListener("scroll", this.throttleLoad);
+    window.addEventListener("load", this.shouldLoad);
   }
 
   componentWillUnmount() {

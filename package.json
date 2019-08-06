@@ -1,6 +1,6 @@
 {
   "name": "react-image-designer",
-  "version": "1.1.9",
+  "version": "1.1.10",
   "description": "Design dynamic, progressively loaded images with React.",
   "main": "build/react-image-designer.js",
   "repository": "https://github.com/LongStoryMedia/react-image-designer",

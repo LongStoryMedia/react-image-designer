@@ -51,7 +51,7 @@ export default class ImageDesigner extends PureComponent {
   }
 
   componentWillUnmount() {
-    this.clearInterval(this.throttleLoad);
+    clearInterval(this.throttleLoad);
     if (this.image) {
       this.image.onload = null;
       this.image.onerror = null;

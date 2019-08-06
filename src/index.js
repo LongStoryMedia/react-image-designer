@@ -77,7 +77,8 @@ export default class ImageDesigner extends PureComponent {
   onLoad = () => {
     this.setState({
       src: this.props.src,
-      styles: { transition: "filter 0.85s ease-in-out", filter: "" }
+      styles: { transition: "filter 0.85s ease-in-out", filter: "" },
+      loaded: true
     });
     window.removeEventListener("scroll", this.throttleLoad);
   };
@@ -147,8 +148,8 @@ export default class ImageDesigner extends PureComponent {
     return (
       <ImgTag
         alt={alt ? alt : src}
-        srcSet={srcset}
-        sizes={sizes}
+        srcSet={loaded ? srcset : ""}
+        sizes={loaded ? sizes : ""}
         src={src}
         style={dynamicStyles}
         className={className}

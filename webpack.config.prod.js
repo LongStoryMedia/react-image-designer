@@ -9,7 +9,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "build"),
     filename: `react-image-designer.js`,
-    libraryTarget: 'commonjs2'
+    libraryTarget: "commonjs2"
   },
   module: {
     rules: [
@@ -31,7 +31,20 @@ module.exports = {
       }
     ]
   },
-  externals: {
-    "react": "commonjs react"
-  }
+  externals: [
+    {
+      "react": {
+        root: "React",
+        commonjs2: "react",
+        commonjs: "react",
+        amd: "react"
+      },
+      "react-dom": {
+        root: "ReactDom",
+        commonjs2: "react-dom",
+        commonjs: "react-dom",
+        amd: "react-dom"
+      }
+    }
+  ]
 };

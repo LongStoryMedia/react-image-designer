@@ -61,7 +61,7 @@ If you use the UMD build you can find the library on `window.__RID`.
 
 #### Simple
 
-```jsx
+```js
 <ImageDesigner
   src={img.src}
   placeholder={img.placeholder}
@@ -74,7 +74,7 @@ If you use the UMD build you can find the library on `window.__RID`.
 
 #### With Caption (as background-image)
 
-```jsx
+```js
 <ImageDesigner
   src={img.src}
   srcset={img.srcset}

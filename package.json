@@ -1,6 +1,6 @@
 {
   "name": "react-image-designer",
-  "version": "1.1.17",
+  "version": "1.1.16",
   "description": "Design dynamic, progressively loaded images with React.",
   "main": "build/react-image-designer.js",
   "repository": "https://github.com/LongStoryMedia/react-image-designer",
@@ -24,6 +24,9 @@
       "ecmaFeatures": {
         "jsx": true
       }
+    },
+    "rules": {
+      "react/prop-types": 0
     }
   },
   "keywords": [
@@ -49,7 +52,7 @@
     "test-watch": "node test.js --watchAll",
     "test": "node test.js",
     "build": "node build.js prod",
-    "prepublishOnly": "npm run test && npm run build && npm run umd",
+    "prepare": "npm run test && npm run build && npm run umd",
     "umd": "node build.js umd"
   },
   "devDependencies": {

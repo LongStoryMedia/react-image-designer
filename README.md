@@ -8,11 +8,11 @@
 
 ## Features
 
-- ##### Can be background-image, or src. Just specify they base element tag in props.
-- ##### Loads only if visible in window.
-- ##### Support for srcset and sizes.
-- ##### Placeholder present until src image is loaded (blank by default)
-- ##### Can set custom timeout to delay src image load
+##### - Can be background-image, or src. Just specify they base element tag in props.
+##### - Loads only if visible in window.
+##### - Support for srcset and sizes.
+##### - Placeholder present until src image is loaded (blank by default)
+##### - Can set custom timeout to delay src image load
 
 ### background
 
@@ -94,7 +94,7 @@ If you use the UMD build you can find the library on `window.__RID`.
 ```
 
 ### Try Things Live
-to test the options, git close this repo, put some images in the 'imgs' directory, and set-up your configuration somewhere in the 'src' directory. Then run ``yarn start ./relative/path/from/src/to/configuration`` or ``npm run start ./relative/path/from/src/to/configuration``. there is an example provided. To run it locally, execute ``yarn start ./dev-scripts/example`` or ``npm run start ./dev-scripts/example``.
+to test the options, git clone this repo, put some images in the 'imgs' directory, and set-up your configuration somewhere in the 'src' directory. Then run ``yarn start ./relative/path/from/src/to/configuration`` or ``npm run start ./relative/path/from/src/to/configuration``. There is an example provided. To run it locally, execute ``yarn start ./dev-scripts/example`` or ``npm run start ./dev-scripts/example``.
 
 ### Contributing
 clone, install, tinker, submit. Thanks!

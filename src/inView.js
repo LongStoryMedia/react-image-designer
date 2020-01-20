@@ -13,12 +13,18 @@ const pos = element => {
   return false;
 };
 
-export const throttle = (fn, wait) => {
-  let time = Date.now();
+export const throttle = function(func, interval) {
+  let timeout;
   return function() {
-    if (time + wait - Date.now() < 0) {
-      fn();
-      time = Date.now();
+    const context = this,
+      args = arguments;
+    const later = function() {
+      timeout = false;
+    };
+    if (!timeout) {
+      func.apply(context, args);
+      timeout = true;
+      setTimeout(later, interval);
     }
   };
 };

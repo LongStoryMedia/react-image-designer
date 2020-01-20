@@ -7,7 +7,7 @@ import React, { PureComponent, createRef } from "react";
 import inView, { throttle } from "./inView";
 
 export default class ImageDesigner extends PureComponent {
-  image = new Image();
+  image = typeof window !== "undefined" ? new Image() : {};
 
   state = {
     src: this.props.placeholder || "",
@@ -26,7 +26,6 @@ export default class ImageDesigner extends PureComponent {
   throttleLoad = throttle(() => this.shouldLoad(), 500);
 
   componentDidUpdate(prevProps, prevState) {
-    const { placeholder } = this.props;
     const { ref, lazy, src, clientHeight } = this.state;
     if (
       (src !== prevProps.src &&
@@ -40,7 +39,7 @@ export default class ImageDesigner extends PureComponent {
   }
 
   componentDidMount() {
-    const { ref, lazy } = this.state;
+    const { lazy } = this.state;
     this.setState({ mounted: true });
     if (lazy) window.addEventListener("scroll", this.throttleLoad);
     window.addEventListener("load", this.shouldLoad);
@@ -61,7 +60,7 @@ export default class ImageDesigner extends PureComponent {
   }
 
   shouldLoad = () => {
-    const { src, placeholder, timeout } = this.props;
+    const { src, timeout } = this.props;
     const { ref, lazy } = this.state;
     if (!ref.current || (ref.current && !inView(ref.current) && lazy))
       return this.setState({ loading: true });
@@ -92,7 +91,7 @@ export default class ImageDesigner extends PureComponent {
       this.image.onload = null;
       this.image.onerror = null;
     }
-    const img = new Image();
+    const img = typeof window !== "undefined" ? new Image() : {};
     this.image = img;
     img.onload = this.onLoad;
     img.onerror = this.onError;
